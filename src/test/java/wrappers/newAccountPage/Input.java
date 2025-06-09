@@ -1,23 +1,23 @@
-package wrappers;
+package wrappers.newAccountPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class TextArea {
+public class Input {
 
     WebDriver driver;
     String label;
     WebElement element;
 
-    public TextArea(WebDriver driver, String label) {
-        this.label = label;
+    public Input(WebDriver driver, String label) {
         this.driver = driver;
-        this.element = driver.findElement(By.xpath(String.format("//label[text()='%s']/ancestor::lightning-textarea//textarea", label)));
+        this.label = label;
+        this.element = driver.findElement(By.xpath
+                (String.format("//label[text()='%s']/ancestor::lightning-input//input", label)));
     }
 
     public void write(String text) {
-        element.click();
         element.sendKeys(text);
     }
 }

@@ -14,14 +14,22 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
-    public void openLoginPage() {
-        driver.get("https://tms9-dev-ed.develop.my.salesforce.com/");
+    @Override
+    public LoginPage open() {
+        driver.get(BASE_URL + ".my.salesforce.com/");
+        return this;
     }
 
-    public void authorization(String user, String password) {
+    @Override
+    public LoginPage isPageOpened() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='Login']")));
+        return this;
+    }
+
+    public HomePage authorization(String user, String password) {
         driver.findElement(USER_NAME_FIELD).sendKeys(user);
         driver.findElement(PASSWORD_FIELD).sendKeys(password);
         driver.findElement(LOG_IN_BUTTON).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".overflow.uiBlock")));
+        return new HomePage(driver);
     }
 }
