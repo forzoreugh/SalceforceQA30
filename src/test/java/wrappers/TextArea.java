@@ -1,4 +1,4 @@
-package wrappers.newAccountPage;
+package wrappers;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

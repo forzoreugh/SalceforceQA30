@@ -1,15 +1,21 @@
 package pages;
 
 import dto.Account;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import wrappers.newAccountPage.Checkbox;
-import wrappers.newAccountPage.Input;
-import wrappers.newAccountPage.Picklist;
-import wrappers.newAccountPage.TextArea;
+import org.testng.Assert;
+import wrappers.Checkbox;
+import wrappers.Input;
+import wrappers.Picklist;
+import wrappers.TextArea;
 
 public class NewAccountModal extends BasePage {
+
+    private static final Logger log = LogManager.getLogger(NewAccountModal.class);
 
     public NewAccountModal(WebDriver driver) {
         super(driver);
@@ -17,18 +23,25 @@ public class NewAccountModal extends BasePage {
 
     @Override
     public NewAccountModal open() {
+        log.info("Open new account page");
         driver.get(BASE_URL + ".lightning.force.com/lightning/o/Account/new");
         return this;
     }
 
     @Override
     public NewAccountModal isPageOpened() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//span[text()='Account Owner']")));
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated
+                    (By.xpath("//span[text()='Account Owner']")));
+        } catch (TimeoutException e) {
+            log.error(e.getMessage());
+            Assert.fail("New account page isn't opened");
+        }
         return this;
     }
 
     public NewAccountModal createAccount(Account account) {
+        log.info("Create an account with data: {}, {}", account.getAccountName(), account.getAccountNumber());
         new Picklist(driver, "Rating").select(account.getRating());
         new Input(driver, "Account Name").write(account.getAccountName());
         new Input(driver, "Phone").write(account.getPhone());
@@ -55,6 +68,7 @@ public class NewAccountModal extends BasePage {
     }
 
     public NewAccountModal clickSaveButton() {
+        log.info("Clicking the save button when creating a new account");
         driver.findElement(By.xpath("//*[@name='SaveEdit']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".toastMessage")));
         return new NewAccountModal(driver);

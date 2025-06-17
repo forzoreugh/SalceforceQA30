@@ -1,15 +1,9 @@
-/*
-Лекция 09.06.2025
-
 package tests;
 
-
-import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.annotations.Test;
 
-@Log4j2
 public class LogTest {
 
     private static final Logger log = LogManager.getLogger(LogTest.class);
@@ -24,4 +18,3 @@ public class LogTest {
         log.trace("trace");
     }
 }
-*/

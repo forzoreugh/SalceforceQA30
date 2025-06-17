@@ -7,14 +7,16 @@ import org.testng.annotations.Test;
 
 public class NewAccountTest extends BaseTest {
 
-    Account account = new Account("Тест", "Тест", "Тест",
-            "3456", "Тест", "Тест", "Тест", "Тест", "33",
-            "Тест", "Prospect", "Apparel", "Hot", "Private", true,
-            true, "Тестовая", "Тестовая");
-
-    @Test (testName = "Создание нового аккаунта", groups = {"end-to-end"})
+    @Test (testName = "Создание нового аккаунта")
     @Severity(SeverityLevel.BLOCKER)
     public void createNewValideAccount() {
+        Account account = Account.builder()
+                .rating("Hot")
+                .accountName("SVIDZINSKI")
+                .phone("+37544")
+                .fax("Тест")
+                .accountNumber("Тест")
+                .build();
         loginStep.autorization(user, password);
         newAccountStep.createAccount(account);
     }

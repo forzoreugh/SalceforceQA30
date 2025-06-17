@@ -1,9 +1,8 @@
 package tests;
 
+import org.testng.ITestResult;
 import org.testng.annotations.Listeners;
 import utils.TestListener;
-
-import io.qameta.allure.Description;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,10 +13,10 @@ import org.testng.asserts.SoftAssert;
 import pages.*;
 import steps.LoginStep;
 import steps.NewAccountStep;
-import utils.TestListener;
 
-import java.time.Duration;
 import java.util.HashMap;
+
+import static utils.AllureUtils.takeScreenshot;
 
 @Listeners(TestListener.class)
 public class BaseTest {
@@ -54,12 +53,12 @@ public class BaseTest {
         return driver;
     }
 
- /*   @AfterMethod(alwaysRun = true, description = "Закрытие браузера")
+    @AfterMethod(alwaysRun = true, description = "Закрытие браузера")
     public void quitBrowser(ITestResult result) {
         if (ITestResult.FAILURE == result.getStatus()) {
             takeScreenshot(driver);
         }
         driver.quit();
     }
-  */
+
 }
