@@ -1,19 +1,19 @@
 package tests;
 
+import org.testng.ITestResult;
+import org.testng.annotations.Listeners;
+import utils.TestListener;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.ITestContext;
-import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
-import pages.BasePage;
-import pages.LoginPage;
-import pages.NewAccountModal;
-import utils.TestListener;
+import pages.*;
+import steps.LoginStep;
+import steps.NewAccountStep;
 
-import java.time.Duration;
 import java.util.HashMap;
 
 import static utils.AllureUtils.takeScreenshot;
@@ -23,9 +23,11 @@ public class BaseTest {
 
     WebDriver driver;
     SoftAssert softAssert;
-    BasePage basePage;
-    LoginPage loginPage;
-    NewAccountModal newAccountModal;
+    LoginStep loginStep;
+    NewAccountStep newAccountStep;
+    ContactsPage contactsPage;
+    String user = System.getProperty("user");
+    String password = System.getProperty("password");
 
     @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true, description = "Открытие браузера")
@@ -41,16 +43,13 @@ public class BaseTest {
             options.addArguments("--disable-popup-blocking");
             options.addArguments("--disable-infobars");
             driver = new ChromeDriver(options);
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-            driver.manage().window().maximize();
         } else if (browser.equalsIgnoreCase("firefox")) {
             driver = new FirefoxDriver();
         }
-        context.setAttribute("driver", driver);
         softAssert = new SoftAssert();
-        basePage = new BasePage(driver);
-        loginPage = new LoginPage(driver);
-        newAccountModal = new NewAccountModal(driver);
+        contactsPage = new ContactsPage(driver);
+        loginStep = new LoginStep(driver);
+        newAccountStep = new NewAccountStep(driver);
         return driver;
     }
 
@@ -61,4 +60,5 @@ public class BaseTest {
         }
         driver.quit();
     }
+
 }
